@@ -36,9 +36,19 @@ const init = async () => {
     app.get('/pontos', async (req, res) => {
         const session = driver.session();
         const result = await session.run(
-            'MATCH (n:Ponto) RETURN n '
+            'MATCH (p:Ponto)-[:PERTENCE_A]->(b:Bairro) RETURN p,b '
         );
-        res.json(result.records.map(record => record._fields[0].properties));
+        res.json(result.records.map(record => ({ ponto: record._fields[0].properties, bairro: record._fields[1].properties })));    
+    });
+
+    app.get('/pontos/:nome', async (req, res) => {
+        const session = driver.session();
+        const nome = req.params.nome;
+        const result = await session.run(
+            'MATCH (l:Linha {nome: $nome})-[:PASSA_POR]->(p:Ponto)-[:PERTENCE_A]->(b:Bairro) RETURN p,b',
+            { nome: nome }
+        );
+        res.json(result.records.map(record => ({ ponto: record._fields[0].properties, bairro: record._fields[1].properties })));
     });
 
     app.get('/horarios/:nome', async (req, res) => {
