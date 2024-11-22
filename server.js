@@ -51,7 +51,7 @@ const init = async () => {
         res.json(result.records.map(record => record._fields[0].properties.horarios));
     })
 
-    app.listen(3000, () => {
+    app.listen(80, () => {
         console.log('Servidor rodando na porta 3000');
         return ('Conectado ao banco de dados');
     });
