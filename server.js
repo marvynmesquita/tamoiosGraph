@@ -2,7 +2,9 @@ const express = require('express');
 const neo4j = require('neo4j-driver');
 const env = require('dotenv').config();
 
-const driver = neo4j.driver(env.parsed.NEO4J_URI, neo4j.auth.basic(env.parsed.NEO4J_USERNAME, env.parsed.NEO4J_PASSWORD));
+const NEO4J_URI = 'neo4j+s://684f2d7d.databases.neo4j.io'
+
+const driver = neo4j.driver(NEO4J_URI, neo4j.auth.basic(env.parsed.NEO4J_USERNAME, env.parsed.NEO4J_PASSWORD));
 
 const init = async () => {
     
