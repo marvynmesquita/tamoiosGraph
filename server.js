@@ -47,8 +47,16 @@ const init = async () => {
         const result = await session.run(
             'MATCH(l:Linha) where l.nome = "'+ nome +'"  RETURN l'
         );
-        console.log(result.records.map(record => record._fields[0].properties.horarios), req.params.nome);
         res.json(result.records.map(record => record._fields[0].properties.horarios));
+    })
+
+    app.get('/etinerario/:nome', async (req, res) => {
+        const session = driver.session();
+        const nome = req.params.nome;
+        const result = await session.run(
+            'MATCH(l:Linha)-[:PERCORRE]->(b:Bairro) where l.nome = "'+ nome +'"  RETURN b'
+        );
+        res.json(result.records.map(record => record._fields[0].properties));
     })
 
     app.listen(3000, () => {
