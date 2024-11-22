@@ -1,5 +1,5 @@
 const express = require('express');
-const neo4j = require('neo4j-driver');
+var neo4j = require('neo4j-driver');
 const env = require('dotenv').config();
 
 neo4j = neo4j.v1;
@@ -52,7 +52,7 @@ const init = async () => {
         res.json(result.records.map(record => record._fields[0].properties.horarios));
     })
 
-    app.listen(80, () => {
+    app.listen(3000, () => {
         console.log('Servidor rodando na porta 3000');
         return ('Conectado ao banco de dados');
     });
